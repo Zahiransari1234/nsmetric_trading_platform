@@ -1,19 +1,32 @@
-# NSMetric Trading Platform Backend
+# NSMetric Trading Platform Backend and Frontend
 
-This repository contains the backend code for the NSMetric Crypto Trading Platform. It is built with Node.js, Express, and TypeScript to handle the API endpoints and core logic.
+This repository contains both the backend and frontend code for the NSMetric Crypto Trading Platform. The backend is built with Node.js, Express, and MongoDB for database management. The frontend is built with React using Vite, TailwindCSS, and Flowy for UI, and Redux Toolkit for state management.
 
 ## Project Structure
 
-- **Language**: TypeScript
+### Backend
+
+- **Language**: JavaScript (ES6+)
 - **Framework**: Express
+- **Database**: MongoDB (via Mongoose)
+- **Authentication**: JSON Web Tokens (JWT)
 - **Dependencies**:
   - Express
+  - Mongoose
   - CORS
+  - Cookie-parser
+  - Bcrypt
+  - Dotenv
+  - JSON Web Token (JWT)
 - **Dev Dependencies**:
-  - TypeScript
   - Nodemon
   - Prettier
-  - Ts-node
+
+### Frontend
+
+- **Framework**: React (with Vite)
+- **UI**: TailwindCSS and Flowy
+- **State Management**: Redux Toolkit
 
 ## Prerequisites
 
@@ -21,84 +34,85 @@ Before running the application, make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (v14.x or higher)
 - [npm](https://www.npmjs.com/)
-- [TypeScript](https://www.typescriptlang.org/) (if you are contributing to TypeScript code)
+- [MongoDB](https://www.mongodb.com/)
+- [Vite](https://vitejs.dev/)
 
 ## Getting Started
 
 ### Installation
+
+#### Backend
 
 1. Clone the repository:
 
    ```bash
    git clone https://github.com/theabhisheksrivastav/nsmetric_trading_platform.git
 
-2. Navigate to the project directory:
+## Navigate to the backend directory:
 
-    ```bash
-    cd nsmetric_trading_platform
+    bash
+    cd nsmetric_trading_platform/backend
+## Install the backend dependencies:
 
-3. Install the dependencies:
-
-    ```bash
+    bash
     npm install
+## Create a .env file in the backend folder and configure your environment variables:
 
-4. Running the Project
+    makefile
 
-## In Development Mode
-To start the backend in development mode with file watching and automatic restarts:
+    PORT=8000
+    MONGODB_URI=your_mongo_db_uri
+    CORS_ORIGIN=*
+    ACCESS_TOKEN_SECRET=your_access_token_secret
+    ACCESS_TOKEN_EXPIRY=1d
+    REFRESH_TOKEN_SECRET=your_refresh_token_secret
+    REFRESH_TOKEN_EXPIRY=7d
+### Run the backend in development mode:
 
-   
+    bash
     npm run dev
+## Frontend
+Navigate to the frontend directory:
 
-## Building the Project
-To compile TypeScript to JavaScript and create the production-ready files:
+    bash
+    cd ../frontend
+## Install the frontend dependencies:
 
+    bash
+    npm install
+## Run the frontend in development mode:
 
-    npm run build
-
-
-## Running the Project in Production
-After building the project, you can run the compiled version with:
-
- 
-    npm run start
-
-
-## Environment Variables
-Make sure to create a .env file in the project root and configure your environment variables. Example:
-
-    PORT=3000
-    DB_HOST=localhost
-    DB_USER=username
-    DB_PASS=password
-    JWT_SECRET=your_secret_key
-## Scripts
+    bash
+    npm run dev
+Scripts
+## Backend
 npm run dev: Starts the server in development mode with live-reloading using Nodemon.
-npm run build: Compiles TypeScript to JavaScript.
-npm run start: Starts the compiled server in production mode.
-Code Style
+## Frontend
+npm run dev: Starts the Vite development server for the frontend.
+## Code Style
 This project uses Prettier for code formatting. You can apply the formatting rules by running:
 
-
+    bash
     npx prettier --write .
+
 ## The Prettier config:
 
-        json
-
-        {
-        "singleQuote": false,
-        "tabWidth": true,
-        "semi": true,
-        "bracketSpacing": true,
-        "trailingComma": "es5"
-        }
+    {
+    "singleQuote": false,
+    "tabWidth": 2,
+    "semi": true,
+    "bracketSpacing": true,
+    "trailingComma": "es5"
+    }
 ## Repository
-Type: Git
+Type : Git
+
 URL: GitHub Repository
-Issues
+
+## Issues
 If you find any bugs or have feature requests, please file them here.
 
-Author
+## Author
 Abhishek
-License
+## License
 This project is licensed under the ISC License.
