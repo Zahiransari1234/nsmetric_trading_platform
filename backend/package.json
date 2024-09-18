@@ -1,0 +1,33 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --env-file=.env dist/index.js",
+    "build": "tsc",
+    "dev": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theabhisheksrivastav/nsmetric_trading_platform.git"
+  },
+  "author": "abhishek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theabhisheksrivastav/nsmetric_trading_platform/issues"
+  },
+  "homepage": "https://github.com/theabhisheksrivastav/nsmetric_trading_platform#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "nodemon": "^3.1.5",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0"
+  }
+}
