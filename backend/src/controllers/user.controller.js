@@ -3,7 +3,7 @@ import {apiError} from '../utils/apiError.js'
 import {User} from '../models/user.model.js' 
 import {apiResponse} from '../utils/apiResponse.js'
 import jwt from 'jsonwebtoken'
-import mongoose from 'mongoose'
+import mongoose, { set } from 'mongoose'
 
 
 const generateAccessAndRefreshToken = async (userId) => 
@@ -58,10 +58,10 @@ const registerUser = asyncHandler(async (req, res) => {
   // const passwordHash = await bcrypt.hash(password, 10)
 
   const user = await User.create({
-    username,
     fullname,
     email,
-    password
+    password,
+    username
   })
 
   const createdUser = await User.findById(user._id).select('-password -refreshToken')
