@@ -6,6 +6,7 @@ import Header from "./component/header";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import { ProtectedRoutes } from "./utils/ProtectedRoutes";
 
 
 
@@ -28,8 +29,9 @@ const App = () => {
 
       {/* <Suspense fallback={<Loader />}> */}
       <Routes>
-          
-           <Route path="/" element={<Home />} />
+          <Route element={<ProtectedRoutes />}>
+          <Route path="/" element={<Home />} />
+          </Route>
            <Route path="/login" element={<Login />} />
            <Route path="/register" element={<Register />} />
 
