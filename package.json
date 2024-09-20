@@ -1,0 +1,11 @@
+{
+  "name": "nsmetric_trading_platform",
+  "version": "1.0.0",
+  "description": "This repository contains both the backend and frontend code for the NSMetric Crypto Trading Platform. The backend is built with Node.js, Express, and MongoDB for database management. The frontend is built with React using Vite, TailwindCSS, and Flowy for UI, and Redux Toolkit for state management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

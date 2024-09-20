@@ -1,34 +1,62 @@
-
-import  { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import '../Register.css';
+import axios from 'axios'; // Make sure to import axios
+import toast from 'react-hot-toast';
 
 function Register() {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
   const [formData, setFormData] = useState({
-    name: '',
+    username: '', // Add username field
+    fullname: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
 
-  const { name, email, password, confirmPassword } = formData;
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev); // Toggle password visibility
+  };
+
+  const { username, fullname, email, password, confirmPassword } = formData;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // console.log(e.target.value)
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle registration logic here
+    // Check if passwords match
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    console.log('Registration Data:', formData);
-    // Navigate to login after successful registration
-    navigate('/Login');
+    
+    // Prepare data for the POST request
+    const registrationData = {
+      username,
+      fullname,
+      email,
+      password, // Do not include confirmPassword
+    };
+
+    console.log('Registration Data:', registrationData);
+    
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/users/register', registrationData);
+      console.log('Registration Successful:', response.data);
+      // Navigate to login after successful registration
+      toast.success('Succesfully register')
+      navigate('/Login');
+    } catch (error) {
+      console.error('Error during registration:', error);
+      if (error.response) {
+       toast.error('User allready exist.')
+      } else {
+        toast.error('Registration failed. Please try again.')
+      }
+    }
   };
 
   return (
@@ -36,12 +64,24 @@ function Register() {
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2>Register</h2>
         <div className="form-group">
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username" // Ensure name matches formData key
+            value={username}
+            onChange={handleChange}
+            required
+            placeholder="Enter your username"
+          />
+        </div>
+        <div className="form-group">
           <label htmlFor="name">Name:</label>
           <input
             type="text"
             id="name"
-            name="name"
-            value={name}
+            name="fullname"
+            value={fullname}
             onChange={handleChange}
             required
             placeholder="Enter your name"

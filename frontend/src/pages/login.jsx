@@ -1,32 +1,66 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 // import '../style/Login.css';
 
 function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    username: '',
     email: '',
     password: '',
   });
 
-  const { email, password } = formData;
+  const { username, email, password } = formData;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login Data:', formData);
-    // Navigate to dashboard or home after login
-    // navigate('/dashboard');
+    
+    // Prepare login data
+    const loginData = {
+      username,
+      email,
+      password,
+    };
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/users/login',loginData);
+      
+      console.log('Login Successful:', response.data);
+      // Navigate to dashboard or home after successful login
+      toast.success('Succesfully Login')
+      navigate('/dashboard'); // Adjust the route as needed
+    } catch (error) {
+      console.error('Error during login:', error);
+      if (error.response) {
+        toast.error('Something went wrong, Please try again.')
+      } else {
+        toast.error('Login failed. Please try again.')
+      }
+    }
   };
 
   return (
     <div className="auth-container">
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            onChange={handleChange}
+            required
+            placeholder="Enter your username"
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input

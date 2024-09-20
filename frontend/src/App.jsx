@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import { lazy, Suspense } from "react";
 // import './App.css'
+import { Toaster } from "react-hot-toast";
 import Header from "./component/header";
 import Home from "./pages/home";
 import Login from "./pages/login";
@@ -21,6 +22,7 @@ const App = () => {
   return (
    <Router>
     <Header />
+    <Toaster position="top-center" reverseOrder={true} />
 
     {/* fallback={<Loader />} */}
 
