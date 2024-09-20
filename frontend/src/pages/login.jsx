@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance'; // Use pre-configured axios instance
 import toast from 'react-hot-toast';
-// import '../style/Login.css';
 
 function Login() {
   const navigate = useNavigate();
@@ -11,6 +10,7 @@ function Login() {
     email: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false); // New state for handling the loading spinner
 
   const { username, email, password } = formData;
 
@@ -18,32 +18,33 @@ function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // Prepare login data
-    const loginData = {
-      username,
-      email,
-      password,
-    };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await axios.post('http://localhost:8000/api/v1/users/login',loginData);
-      
-      console.log('Login Successful:', response.data);
-      // Navigate to dashboard or home after successful login
-      toast.success('Succesfully Login')
-      navigate('/dashboard'); // Adjust the route as needed
-    } catch (error) {
-      console.error('Error during login:', error);
-      if (error.response) {
-        toast.error('Something went wrong, Please try again.')
-      } else {
-        toast.error('Login failed. Please try again.')
-      }
+  if (isLoading) return;
+
+  const loginData = { username, email, password };
+
+  try {
+    setIsLoading(true);
+    const response = await axiosInstance.post('/api/v1/users/login', loginData);
+
+    // Store user info in localStorage or state management
+    localStorage.setItem('user', JSON.stringify(response.data.message.user));
+
+    toast.success('Login successful');
+    navigate('/dashboard');
+  } catch (error) {
+    if (error.response) {
+      toast.error(error.response.data.message || 'Login failed. Please try again.');
+    } else {
+      toast.error('Something went wrong. Please try again.');
     }
-  };
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   return (
     <div className="auth-container">
@@ -85,9 +86,14 @@ function Login() {
             placeholder="Enter your password"
           />
         </div>
-        <button type="submit" className="btn">Login</button>
+        <button type="submit" className="btn" disabled={isLoading}>
+          {isLoading ? 'Logging in...' : 'Login'} {/* Disable button when loading */}
+        </button>
         <p>
-          Don't have an account? <span onClick={() => navigate('/register')} className="link">Register here</span>
+          Don't have an account?{' '}
+          <span onClick={() => navigate('/register')} className="link">
+            Register here
+          </span>
         </p>
       </form>
     </div>

@@ -1,15 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaSignInAlt, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const user = { _id: "", role: "" }; // Assuming a logged-in user for demonstration
-
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false); // Initialize as 'false' to close modal by default
+  const [user, setUser] = useState(null); // Track logged-in user
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    console.log(storedUser)
+    
+    // Ensure the stored value is valid before attempting to parse
+    if (storedUser && storedUser !== "undefined") {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Error parsing stored user data:", error);
+      }
+    }
+  }, []);
 
   const logOutHandler = () => {
     setIsOpen(false);
-    // Add actual log out logic here
+    localStorage.removeItem('user'); // Clear user data from localStorage
+    setUser(null); // Clear user state
+    // Add actual logout logic here, like redirecting to login
   };
 
   return (
@@ -17,10 +33,8 @@ const Header = () => {
       <Link onClick={() => setIsOpen(false)} to={"/"}>
         Home
       </Link>
-      {/* <Link onClick={()=>setIsOpen(false)} to={"/search"}><FaSearch /></Link> */}
-      {/* <Link onClick={()=>setIsOpen(false)} to={"/cart"}><FaShoppingBag /></Link> */}
 
-      {user?._id ? (
+      {user ? (
         <>
           <button onClick={() => setIsOpen((prev) => !prev)}>
             <FaUser />
@@ -29,14 +43,9 @@ const Header = () => {
           {isOpen && (
             <div className="modal">
               <div className="modal-content">
-                {user.role === "admin" && (
-                  <Link onClick={() => setIsOpen(false)} to={""}>
-                   
-                  </Link>
-                )}
-                {/* <Link onClick={() => setIsOpen(false)} to={"/order"}>Order</Link> */}
                 <button onClick={logOutHandler}>
                   <FaSignOutAlt />
+                  Logout
                 </button>
               </div>
             </div>
